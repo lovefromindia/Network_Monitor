@@ -35,7 +35,7 @@ public final class LinuxDeviceProfile implements Profile {
     }
 
     @Override
-    public synchronized boolean poll() {
+    public boolean poll() {
 
         if(PingApp.checkStatus(this.ip) == 1){
             ArrayList<String> commands = new ArrayList<>();
@@ -46,7 +46,7 @@ public final class LinuxDeviceProfile implements Profile {
             commands.add("ps -eo pid,thcount,%cpu,%mem,rss,vsz --sort=-%cpu,-%mem | head -n 11");
             commands.add("mpstat -P ALL -o JSON | grep  \"{\\\"cpu\\\":\"");
             ArrayList<String> output = new ArrayList<>();
-            if(!SSHApp.executeCommands(this.profileName,this.password,this.ip,this.port,commands,output)){
+            if(!SSHApp.executeCommands(this.userName,this.password,this.ip,this.port,commands,output)){
                 this.db.write(" SSH ERROR");
                 this.db.write("-----------------------------------------");
                 return false;

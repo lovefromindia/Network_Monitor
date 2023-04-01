@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class WorkerThreadPool {
-
     private volatile boolean firstTask;
     private final int MAX_THREADS;
 
