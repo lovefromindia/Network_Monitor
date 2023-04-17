@@ -5,7 +5,6 @@ import java.io.FileWriter;
 
 public class LinuxDeviceDB implements DB{
     private static final String path = "/home/mihir/IdeaProjects/NetworkMonitoringDevice/src/main/java/com/monitoring/app/polldata/linuxdevicedb/";
-
     private final String profileName;
     public LinuxDeviceDB(String profileName){
         this.profileName = profileName;

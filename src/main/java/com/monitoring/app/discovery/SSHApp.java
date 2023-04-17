@@ -5,7 +5,6 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -37,7 +36,7 @@ public final class SSHApp {
                         StandardOpenOption option =
                                 !Files.exists(path) ? StandardOpenOption.CREATE : StandardOpenOption.APPEND;
                         Files.write(path, java.util.Arrays.asList(message), option);
-                    } catch (IOException e) {
+                    } catch (Exception e) {
                         System.err.println(message);
                     }
                 }
