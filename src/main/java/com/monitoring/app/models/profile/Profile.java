@@ -1,4 +1,4 @@
-package com.monitoring.app.discovery.profile;
+package com.monitoring.app.models.profile;
 
 public interface Profile {
 
@@ -15,6 +15,6 @@ public interface Profile {
 
 
     //polling method
-    boolean poll();
+    void poll();
 
 }

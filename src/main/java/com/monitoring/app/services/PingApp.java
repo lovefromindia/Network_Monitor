@@ -1,13 +1,12 @@
-package com.monitoring.app.discovery;
-
-import com.monitoring.app.outputparser.OutputParser;
+package com.monitoring.app.services;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class PingApp {
-    public static final int checkStatus(String ip){
+    public static int checkStatus(String ip){
 
         try {
 

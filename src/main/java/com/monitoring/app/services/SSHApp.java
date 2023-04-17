@@ -1,4 +1,4 @@
-package com.monitoring.app.discovery;
+package com.monitoring.app.services;
 
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
@@ -9,17 +9,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.List;
+import java.util.Map;
 
 public final class SSHApp {
 
     private SSHApp(){}
 
     public static boolean executeCommands(String username, String password,
-                                          String host, int port, List<String> commands, List<String> output){
+                                          String host, int port, Map<String,String> output){
 
-        Session session=null;
-        ChannelExec channel=null;
+        Session session = null;
 
         try{
             //for sending multiple commands, we can reuse the same session
@@ -41,6 +40,7 @@ public final class SSHApp {
                     }
                 }
             });
+
             jsch.setKnownHosts("/home/mihir/.ssh/known_hosts");
             jsch.addIdentity("/home/mihir/.ssh/id_rsa");
             session = jsch.getSession(username, host, port);
@@ -49,28 +49,36 @@ public final class SSHApp {
 
             session.connect(5000);
 
-            for(String command: commands) {
 
-                channel = (ChannelExec) session.openChannel("exec");
-                channel.setCommand(command);
-                ByteArrayOutputStream responseStream = new ByteArrayOutputStream();
-                channel.setOutputStream(responseStream);
-                channel.connect();
+            Session finalSession = session;
+            CommandMapper.commandMap.forEach((commandName, command)->{
+                ChannelExec channel = null;
+                try {
+                    channel = (ChannelExec) finalSession.openChannel("exec");
+                    channel.setCommand(command);
+                    ByteArrayOutputStream responseStream = new ByteArrayOutputStream();
+                    channel.setOutputStream(responseStream);
+                    channel.connect();
 
-                while (channel.isConnected()) {
-                    Thread.sleep(100);
+                    while (channel.isConnected()) {
+                        Thread.sleep(100);
+                    }
+                    output.put(commandName,responseStream.toString());
+                }catch (Exception exception){
+                    output.put(commandName,"ERROR");
+                }finally {
+                    if (channel != null) {
+                        channel.disconnect();
+                    }
                 }
-                output.add(responseStream.toString());
-            }
+            });
+
         } catch(Exception exception){
             System.out.println(exception.getMessage());
             return false;
         }finally {
             if (session != null) {
                 session.disconnect();
-            }
-            if (channel != null) {
-                channel.disconnect();
             }
         }
         return true;

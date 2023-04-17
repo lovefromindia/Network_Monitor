@@ -1,4 +1,4 @@
-package com.monitoring.app.outputparser;
+package com.monitoring.app.services;
 
 import java.util.*;
 

@@ -1,9 +1,9 @@
 package com.monitoring.app;
 
-import com.monitoring.app.discovery.profile.LinuxDeviceProfile;
-import com.monitoring.app.discovery.profile.NetworkDeviceProfile;
-import com.monitoring.app.discovery.profile.Profile;
-import com.monitoring.app.util.EventLoop;
+import com.monitoring.app.models.profile.LinuxDeviceProfile;
+import com.monitoring.app.models.profile.NetworkDeviceProfile;
+import com.monitoring.app.models.profile.Profile;
+import com.monitoring.app.util.Poller;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -16,7 +16,7 @@ public class Main {
     private static final String[][] menu = {{"Discovery","Exit"},{"Linux Device","Network Device"}};
     private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-    private static final EventLoop eventLoop = new EventLoop(DEFAULT_THREADS);
+    private static final Poller eventLoop = new Poller(DEFAULT_THREADS);
 
     private static int getMenu(int menuIndex, String question) {
         int choice = 0;
@@ -76,7 +76,7 @@ public class Main {
                     eventLoop.provision(profile,pollInterval);
 
                     if(!eventLoopStarted){
-                        new Thread(()->eventLoop.start(),"EventLoop").start();
+                        new Thread(()->eventLoop.start(),"Poller").start();
                         eventLoopStarted = true;
                     }
 
@@ -94,7 +94,7 @@ public class Main {
                     eventLoop.provision(profile,DEFAULT_INTERVAL);
 
                     if(!eventLoopStarted){
-                        new Thread(()->eventLoop.start(),"EventLoop").start();
+                        new Thread(()->eventLoop.start(),"Poller").start();
                         eventLoopStarted = true;
                     }
 

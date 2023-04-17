@@ -1,11 +1,11 @@
 package com.monitoring.app.util;
 
-import com.monitoring.app.discovery.profile.Profile;
+import com.monitoring.app.models.profile.Profile;
 
 import java.time.Instant;
 import java.util.PriorityQueue;
 
-public final class EventLoop {
+public final class Poller {
 
     private static class Query{
         private long timeStamp;
@@ -41,7 +41,7 @@ public final class EventLoop {
     private final WorkerThreadPool workerThreadPool;
 
     //sort the taskQueue by timestamp in increasing order
-    public EventLoop(int threadPoolSize){
+    public Poller(int threadPoolSize){
         pollingEvents = new PriorityQueue<>((obj, other) -> obj.getTimeStamp()-other.getTimeStamp()<0L?-1:1);
         workerThreadPool = new WorkerThreadPool(threadPoolSize);
     }
