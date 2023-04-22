@@ -1,8 +1,8 @@
 package com.monitoring.app;
 
-import com.monitoring.app.models.profile.LinuxDeviceProfile;
-import com.monitoring.app.models.profile.NetworkDeviceProfile;
-import com.monitoring.app.models.profile.Profile;
+import com.monitoring.app.models.LinuxDeviceProfile;
+import com.monitoring.app.models.NetworkDeviceProfile;
+import com.monitoring.app.models.Profile;
 import com.monitoring.app.util.Poller;
 
 import java.io.BufferedReader;
@@ -14,8 +14,7 @@ public class Main {
     static final int DEFAULT_THREADS = 5;
     static final int DEFAULT_INTERVAL = 10;
     private static final String[][] menu = {{"Discovery","Exit"},{"Linux Device","Network Device"}};
-    private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
+    private static final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     private static final Poller eventLoop = new Poller(DEFAULT_THREADS);
 
     private static int getMenu(int menuIndex, String question) {
@@ -29,7 +28,7 @@ public class Main {
         try{
             choice = Integer.parseInt(reader.readLine());
         }catch (Exception exception){
-            exception.printStackTrace();
+            System.out.println("Invalid Input");
         }
 
         return choice;
@@ -75,6 +74,7 @@ public class Main {
 
                     eventLoop.provision(profile,pollInterval);
 
+                    System.out.println("Device with IP: " + ip + " has been registered for provisioning");
                     if(!eventLoopStarted){
                         new Thread(()->eventLoop.start(),"Poller").start();
                         eventLoopStarted = true;
@@ -92,6 +92,7 @@ public class Main {
                     }
 
                     eventLoop.provision(profile,DEFAULT_INTERVAL);
+                    System.out.println("Device with IP: " + ip + " has been registered for discovery");
 
                     if(!eventLoopStarted){
                         new Thread(()->eventLoop.start(),"Poller").start();

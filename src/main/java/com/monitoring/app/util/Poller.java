@@ -1,6 +1,6 @@
 package com.monitoring.app.util;
 
-import com.monitoring.app.models.profile.Profile;
+import com.monitoring.app.models.Profile;
 
 import java.time.Instant;
 import java.util.PriorityQueue;

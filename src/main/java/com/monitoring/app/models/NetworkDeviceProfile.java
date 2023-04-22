@@ -1,4 +1,4 @@
-package com.monitoring.app.models.profile;
+package com.monitoring.app.models;
 
 import com.monitoring.app.services.PollingService;
 

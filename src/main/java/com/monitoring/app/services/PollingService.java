@@ -3,8 +3,8 @@ package com.monitoring.app.services;
 import com.monitoring.app.database.DB;
 import com.monitoring.app.database.LinuxDeviceDB;
 import com.monitoring.app.database.NetworkDeviceDB;
-import com.monitoring.app.models.profile.LinuxDeviceProfile;
-import com.monitoring.app.models.profile.NetworkDeviceProfile;
+import com.monitoring.app.models.LinuxDeviceProfile;
+import com.monitoring.app.models.NetworkDeviceProfile;
 import org.json.JSONObject;
 
 import java.time.Instant;
